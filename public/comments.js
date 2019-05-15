@@ -1,13 +1,10 @@
-const fs = require('fs');
-
 const textarea = document.querySelector('textarea');
 const button = document.querySelector('button');
 const chat = document.querySelector('#chat');
 
 const addComment = (value) => {
-    fs.writeFileSync('chat.json', value, (err) => {
-        if(err){console.log(err);}
-    });
+    var comment = document.createTextNode(value);
+    chat.append(comment);
 }
 
 button.addEventListener('click', () =>{
