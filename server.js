@@ -15,12 +15,12 @@ app.get('/', (request, response) => {
 
 app.get('/blog', (request, response) => {
 
-    fs.readFileSync('chat.json', response, (err) => {
+    fs.readFileSync('chat.json', request, (err) => {
         if(err){
             console.log(err);
         }
     });
-    
+
     response.sendFile(__dirname + '/blog.html');
 });
 
