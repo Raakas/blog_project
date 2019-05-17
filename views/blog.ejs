@@ -16,7 +16,10 @@
             </div>
         </div>
         <div class="comments">
-            <div id="chat"><%= data %></div>
+            <div id="chat"><%=
+                for(i=0; i< chat.length -1; i++){
+                 chat[i].name + " " + chat[i].comment }
+                 %></div>
             <form method="POST" action="/blog">
                 <p>LEAVE A COMMENT</p>
                 <input type="text" name="comment"/>
