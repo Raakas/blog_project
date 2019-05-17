@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+
 const app = express();
 const PORT = 5000;
 
@@ -9,29 +10,33 @@ app.use(bodyParser.urlencoded({extended: false}) );
 app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
-    response.sendFile(__dirname + '/index.html');
+    
+    response.sendFile(__dirname + '/index.ejs');
 
 });
 
 app.get('/blog', (request, response) => {
 
-    fs.readFileSync('chat.json', request, (err) => {
-        if(err){
-            console.log(err);
-        }
-    });
+    const data = fs.readFileSync('chat.json');
 
-    response.sendFile(__dirname + '/blog.html');
+    response.render(__dirname + '/blog.ejs', data);
+
+    //response.sendFile(__dirname + '/blog.html');
 });
 
 app.post('/blog', (request, response) => {
 
-    fs.writeFileSync('chat.json', request.body.comment, {flag: "a"}, (err) => {
+    data = fs.readFileSync('chat.json')
+    let obj = JSON.parse(data);
+    obj.chat.push({"name": request.body.name, "comment": request.body.comment});
+    const json = JSON.stringify(obj);
+
+    fs.writeFileSync('chat.json', json, {flags: 'a'}, (err) => {
         if(err){
             console.log(err);
         }
     });
-    
+
     response.redirect('/');
 });
 

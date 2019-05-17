@@ -10,18 +10,15 @@
         </header>
         <div class="flex-container">
             <div class="main">
-                <h3>YOSEMITE PARK 3.5.2014</h3>
+                <h3>YOSEMITE GIGGEL 3.5.2014</h3>
                 <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sollicitudin nibh sit amet commodo nulla. Quisque egestas diam in arcu cursus. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Gravida dictum fusce ut placerat orci nulla. Consequat interdum varius sit amet mattis. Non consectetur a erat nam. Velit ut tortor pretium viverra. Neque gravida in fermentum et sollicitudin. Urna et pharetra pharetra massa massa ultricies mi quis. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et netus. Et leo duis ut diam quam nulla porttitor massa id. Interdum velit euismod in pellentesque massa placerat duis. Justo laoreet sit amet cursus sit amet dictum sit amet. Pretium quam vulputate dignissim suspendisse in est ante in nibh. Gravida neque convallis a cras. Ut etiam sit amet nisl purus in. Ridiculus mus mauris vitae ultricies leo integer malesuada nunc.</p>
                 <img src="/images/alpine-architecture-bridge-460373.jpg" style="width:50%;">
             </div>
         </div>
         <div class="comments">
-            <div id="chat"></div>        
+            <div id="chat"><%= data %></div>
             <form method="POST" action="/blog">
                 <p>LEAVE A COMMENT</p>
-                <label>User name:</label>
-                <input type="text" name="name"/>
-                <label>Comment:</label>
                 <input type="text" name="comment"/>
                 <button>SUBMIT COMMENT</button>
             </form>
