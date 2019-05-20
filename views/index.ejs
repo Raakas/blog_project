@@ -20,42 +20,14 @@
                     <h3>BLOG ARTICLES</h3>
                 </div>
                 <div class="blogs">
-                    <div class="article">
-                        <a href="/blog">
-                            <img src="../images/2.jpg" style="width: 100%;"/>
-                            <p>Yosemite park 3.5.2014</p>
-                        </a>
-                    </div>
-                    <div class="article">
-                        <a href="/blog">
-                            <img src="../images/2.jpg" style="width: 100%;"/>
-                            <p>Yosemite park 3.5.2014</p>
-                        </a>
-                    </div>
-                    <div class="article">
-                        <a href="/blog">
-                            <img src="../images/2.jpg" style="width: 100%;"/>
-                            <p>Yosemite park 3.5.2014</p>
-                        </a>
-                    </div>
-                    <div class="article">
-                        <a href="/blog">
-                            <img src="../images/2.jpg" style="width: 100%;"/>
-                            <p>Yosemite park 3.5.2014</p>
-                        </a>
-                    </div>
-                    <div class="article">
-                        <a href="/blog">
-                            <img src="../images/2.jpg" style="width: 100%;"/>
-                            <p>Yosemite park 3.5.2014</p>
-                        </a>
-                    </div>
-                    <div class="article">
-                        <a href="/blog">
-                            <img src="../images/2.jpg" style="width: 100%;"/>
-                            <p>Yosemite park 3.5.2014</p>
-                        </a>
-                    </div>
+                    <% for(let i in blogs){ %>
+                        <div class="article">
+                            <a href="/blog">
+                                <img src="../images/<%= blogs[i].image %>" style="width: 100%;"/>
+                                <p><%= blogs[i].title %></p>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>

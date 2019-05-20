@@ -51,7 +51,7 @@ h1, h2, h3, h4 {
 .article {
     background-color: rgb(53, 95, 30);
     width: 30%;
-    height: 200px;
+    height: 225px;
     margin: 10px;
     text-align: center;
 }
@@ -122,5 +122,4 @@ a#back_link:hover {
     100% {
         margin-left:5%;
     }
-
 }

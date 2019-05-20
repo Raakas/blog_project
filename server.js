@@ -9,8 +9,11 @@ app.use(bodyParser.urlencoded({extended: false}) );
 app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
+
+    const data = fs.readFileSync('blogs.json');
+    const blogs = JSON.parse(data);
     
-    response.render('index.ejs');
+    response.render('index.ejs', blogs);
 
 });
 
