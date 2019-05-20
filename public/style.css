@@ -8,31 +8,33 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('/images/cliff-clouds-countryside-2114206.jpg');
+    background-image: url('/images/1.jpg');
     background-size: cover;
     background-position: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 2em;
+    font-size: 2.4em;
     text-align: justify;
     height: 300px;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
     color: #fff;
 }
-p {
-    color: black;
+header > a {
+    color: white;
 }
 a {
     color: black;
+    text-decoration: none;
 }
 h1, h2, h3, h4 {
     font-family: Arial, Helvetica, sans-serif;
 }
-#wrapper {
+.wrapper {
     width: 85%;
 }
 .flex-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 .main {
     display: flex;
@@ -40,28 +42,85 @@ h1, h2, h3, h4 {
     padding: 10px 50px 25px 50px;
     align-items: center;
 }
-.sidebar {
+.blogs {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.article {
+    background-color: rgb(53, 95, 30);
+    width: 30%;
+    height: 200px;
+    margin: 10px;
+    text-align: center;
+}
+.article:hover {
+    animation-name: bounce;
+    animation-duration: 0.5s;
+}
+.article a {
+    color: #fff;
+    text-decoration: none;
+}
+.article p {
+    margin: 0;
+    padding-top: 5px;
 }
 .comments {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 40px 0px 40px 0px;
+    margin: 40px 0px 100px 0px;
 }
-
+.chat {
+    border: solid rgb(158, 158, 158) 1px;
+    border-radius: 5px;
+    padding: 10px 10px 10px 40px;
+    margin-bottom: 50px;
+    max-height: 400px;
+    overflow: auto;
+}
 h2 {
     font-size: 1.2em
 }
-
 footer {
-    background-color: #fff;
-    color: #999;
+    background-color:rgb(53, 95, 30);
+    color: #fff;
     height: 65px;
     text-align: left;
     padding: 25px;
     margin-top: 100px;
+}
+span {
+    font-size: 1.4em;
+}
+a#back_link:hover {
+    animation-name: nudge;
+    animation-duration: 1s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+        box-shadow: none;
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: #999 5px 10px 10px;
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+@keyframes nudge {
+    0% {
+        margin-left:5%;
+    }
+    20% {
+        margin-left:4%;
+    }
+    100% {
+        margin-left:5%;
+    }
+
 }
