@@ -5,11 +5,23 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <a href="/">
-            <header>
-                THE NATIONAL PARKS OF JOY
-            </header>
-        </a>
+        <div id="login">
+            <a href="#" id="login_button">Log in</a>
+            <div id="login_form">
+                <form method="POST" action="/">
+                    <label>Username: </label>
+                    <input type="text" /><br>
+                    <label>Password: </label>
+                    <input type="password" /><br>
+                    <button>Log in</button>
+                    <hr>
+                    <p>Not a user yet? <a href="/register" style="color:greenyellow;">Register</a> and log in.</p>
+                </form>
+            </div>
+        </div>
+        <header>
+            <p>THE NATIONAL PARKS OF JOY</p>
+        </header>
         <div class="flex-container">
             <div class="wrapper">
                 <div class="main">
@@ -35,4 +47,11 @@
                 <p>&copy; National parks 2019</p>
         </footer>
     </body>
+    <script>
+        function login(){
+            const form = document.getElementById("login_form");
+            form.style.display = "block";
+        }
+        document.getElementById("login_button").onclick = login;
+    </script>
 </html>
