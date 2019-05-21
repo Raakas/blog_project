@@ -1,7 +1,8 @@
 const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const app = express();
+const bcrypt = require('bcrypt');
 const PORT = 5000;
 
 app.use('/', express.static(__dirname + "/public"));
@@ -16,6 +17,20 @@ app.get('/', (request, response) => {
     response.render('index.ejs', blogs);
 
 });
+
+app.post('/', (request, response) => {
+    
+    const saltRounds = 10;
+    const password = request.body.password;
+        
+    bcrypt.compare(password, saltRounds).then(function(response) {
+        if(password === response){
+            console.log("login");
+        }
+    });
+
+    response.redirect('/');
+})
 
 app.get('/blog', (request, response) => {
 
@@ -73,16 +88,23 @@ app.get('/register', (request, response) => {
 })
 
 app.post('/register', (request, response) => {
-      
+
+    const saltRounds = 10;
+
     data = fs.readFileSync('register.json');
     let obj = JSON.parse(data);
-    obj.register.push({"username": request.body.username, "password": request.body.password});
-    const json = JSON.stringify(obj);
 
-    fs.writeFileSync('register.json', json, (err) => {
-        if(err){
-            console.log(err);
-        }
+    const password = request.body.password;
+
+    bcrypt.hash(password, saltRounds).then(function(hash){
+        obj.register.push({"username": request.body.username, "password": hash});
+        const json = JSON.stringify(obj);
+
+        fs.writeFileSync('register.json', json, (err) => {
+            if(err){
+                console.log(err);
+            }
+        });
     });
 
     response.redirect('/');
