@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const PORT = 5000;
+const saltRounds = 10;
 
 app.use('/', express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}) );
@@ -20,16 +21,25 @@ app.get('/', (request, response) => {
 
 app.post('/', (request, response) => {
     
-    const saltRounds = 10;
     const password = request.body.password;
-        
-    bcrypt.compare(password, saltRounds).then(function(response) {
-        if(password === response){
-            console.log("login");
+
+    const db = fs.readFileSync('register.json');
+    const data = JSON.parse(db);
+    const string = data.register[3].password;
+    const a = JSON.stringify(string);
+
+    bcrypt.compare(password, a, (err, response) => {
+        console.log(password);
+        console.log(a);
+
+        if(response){
+            console.log(response);
+        }
+        else {
+            console.log(response);
         }
     });
 
-    response.redirect('/');
 })
 
 app.get('/blog', (request, response) => {
@@ -88,8 +98,6 @@ app.get('/register', (request, response) => {
 })
 
 app.post('/register', (request, response) => {
-
-    const saltRounds = 10;
 
     data = fs.readFileSync('register.json');
     let obj = JSON.parse(data);

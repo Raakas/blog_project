@@ -29,11 +29,17 @@ header > a {
 }
 #login_form {
     display: none;
-    background-color: #a3ad4b;
+    color: #fff;
+    background-color: rgb(53, 95, 30);
     width: 255px;
     text-align: right;
     border-radius: 5px;
     padding: 15px;
+    border: 1px solid #000;
+    box-shadow: #111 5px 5px 10px
+}
+#login_button:hover {
+    color: #fff;
 }
 a {
     color: black;
@@ -45,6 +51,16 @@ h1, h2, h3, h4 {
 .wrapper {
     width: 85%;
 }
+@media screen and (min-width: 1600px){
+    .wrapper {
+        width: 50%;
+    }
+}
+@media screen and (min-width: 800px){
+    .wrapper {
+        width: 65%;
+    }
+}
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -53,8 +69,11 @@ h1, h2, h3, h4 {
 .main {
     display: flex;
     flex-direction: column;
-    padding: 10px 50px 25px 50px;
     align-items: center;
+}
+.main img {
+    width: 100%;
+    margin: 25px;
 }
 .blogs {
     display: flex;
@@ -65,7 +84,7 @@ h1, h2, h3, h4 {
 .article {
     background-color: rgb(53, 95, 30);
     width: 30%;
-    height: 225px;
+    padding-bottom: 15px;
     margin: 10px;
     text-align: center;
 }
@@ -81,21 +100,9 @@ h1, h2, h3, h4 {
     margin: 0;
     padding-top: 5px;
 }
-@media (max-width: 1600px) {
-    .article {
-        width: 29%;
-        height: 300px;
-    }
-}
-
-@media (max-width: 1200px) {
-    .article {
-        width: 29%;
-        height: 200px;
-    }
-}
 .comments {
     margin: 40px 0px 100px 0px;
+    width: 100%;
 }
 .chat {
     border: solid rgb(158, 158, 158) 1px;
@@ -104,6 +111,7 @@ h1, h2, h3, h4 {
     margin-bottom: 50px;
     max-height: 400px;
     overflow: auto;
+    width: 100%;
 }
 h2 {
     font-size: 1.2em
