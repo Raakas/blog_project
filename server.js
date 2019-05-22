@@ -21,24 +21,21 @@ app.get('/', (request, response) => {
 
 app.post('/', (request, response) => {
     
+    const username = request.body.username;
     const password = request.body.password;
 
     const db = fs.readFileSync('register.json');
     const data = JSON.parse(db);
-    const string = data.register[3].password;
-    const a = JSON.stringify(string);
 
-    bcrypt.compare(password, a, (err, response) => {
-        console.log(password);
-        console.log(a);
+    const hash = data.register[6].password;
 
-        if(response){
-            console.log(response);
-        }
-        else {
-            console.log(response);
-        }
-    });
+    bcrypt
+        .compare(password, hash)
+        .then(res => {
+            console.log(res);
+            response.redirect('/blog');
+        })
+        .catch(err => console.error(err.message));
 
 })
 
@@ -98,13 +95,23 @@ app.get('/register', (request, response) => {
 })
 
 app.post('/register', (request, response) => {
-
+   
     data = fs.readFileSync('register.json');
     let obj = JSON.parse(data);
 
     const password = request.body.password;
+    const saltRounds = 10;
 
-    bcrypt.hash(password, saltRounds).then(function(hash){
+    bcrypt
+    .genSalt(saltRounds)
+    .then(salt => {
+        console.log(`Salt: ${salt}`);
+
+        return bcrypt.hash(password, salt);
+    })
+    .then(hash => {
+        console.log(`Hash: ${hash}`);
+
         obj.register.push({"username": request.body.username, "password": hash});
         const json = JSON.stringify(obj);
 
@@ -113,7 +120,8 @@ app.post('/register', (request, response) => {
                 console.log(err);
             }
         });
-    });
+    })
+    .catch(err => console.error(err.message));
 
     response.redirect('/');
 });
