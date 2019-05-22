@@ -50,7 +50,15 @@
     <script>
         function login(){
             const form = document.getElementById("login_form");
-            form.style.display = "block";
+
+            switch(form.style.display){
+                case form.style.display="block":
+                    form.style.display = "none"
+                    break;
+                case form.style.display="none":
+                    form.style.display = "block"
+                    break;
+            }
         }
         document.getElementById("login_button").onclick = login;
     </script>

@@ -37,10 +37,10 @@ app.post('/', (request, response) => {
         .compare(password, hash)
         .then(res => {
             console.log(res);
-            response.redirect('/blog');
         })
         .catch(err => console.error(err.message));
 
+    response.redirect('/');
 })
 
 app.get('/blog', (request, response) => {
