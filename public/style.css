@@ -40,9 +40,7 @@ header > a {
     background-color: rgb(53, 95, 30);
     width: 255px;
     text-align: right;
-    border-radius: 5px;
     padding: 15px;
-    border: 1px solid #000;
     box-shadow: #111 5px 5px 10px
 }
 #login_button:hover {

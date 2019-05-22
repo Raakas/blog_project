@@ -4,13 +4,25 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const PORT = 5000;
-const saltRounds = 10;
 
 app.use('/', express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}) );
 app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
+
+    const path = 'blogs.json';
+
+    try {
+        if (!fs.existsSync(path)) {
+            const json = {"blogs":[]};
+            const data = JSON.stringify(json);
+            fs.writeFileSync('blogs.json', data);
+        }
+    }
+    catch(err) {
+        console.error(err)
+    }
 
     const data = fs.readFileSync('blogs.json');
     const blogs = JSON.parse(data);
@@ -23,7 +35,8 @@ app.post('/', (request, response) => {
     
     const username = request.body.username;
     const password = request.body.password;
-    let hash = "";
+
+    let hash;
 
     const data = JSON.parse(fs.readFileSync('register.json'));
 
@@ -106,13 +119,9 @@ app.post('/register', (request, response) => {
     bcrypt
     .genSalt(saltRounds)
     .then(salt => {
-        console.log(`Salt: ${salt}`);
-
         return bcrypt.hash(password, salt);
     })
     .then(hash => {
-        console.log(`Hash: ${hash}`);
-
         data.register.push({"username": request.body.username, "password": hash});
         const json = JSON.stringify(data);
 
