@@ -27,6 +27,10 @@
         {
             "username": "zxc",
             "password": "$2b$10$0jO42t9wrmq5unuZktnad.R/DbQ0OHZ8ZP10m7OucQnqeTLkk5D46"
+        },
+        {
+            "username": "dfg",
+            "password": "$2b$10$DVt5MXLbNo56cSB2sAtqoektrfOYJo7G0060YiD1up9GNYqXh3s2O"
         }
     ]
 }

@@ -23,11 +23,15 @@ app.post('/', (request, response) => {
     
     const username = request.body.username;
     const password = request.body.password;
+    let hash = "";
 
-    const db = fs.readFileSync('register.json');
-    const data = JSON.parse(db);
+    const data = JSON.parse(fs.readFileSync('register.json'));
 
-    const hash = data.register[6].password;
+    for(let i in data.register){
+        if(data.register[i].username == username){
+            hash = data.register[i].password;
+        }
+    }
 
     bcrypt
         .compare(password, hash)
@@ -54,18 +58,16 @@ app.get('/blog', (request, response) => {
         console.error(err)
     }
 
-    const data = fs.readFileSync('chat.json');
-    const chat = JSON.parse(data);
+    const chat = JSON.parse(fs.readFileSync('chat.json'));
 
     response.render('blog.ejs', chat);
 });
 
 app.post('/blog', (request, response) => {
 
-    data = fs.readFileSync('chat.json');
-    let obj = JSON.parse(data);
-    obj.chat.push({"name": request.body.name, "comment": request.body.comment});
-    const json = JSON.stringify(obj);
+    data = JSON.parse(fs.readFileSync('chat.json'));
+    data.chat.push({"name": request.body.name, "comment": request.body.comment});
+    const json = JSON.stringify(data);
 
     fs.writeFileSync('chat.json', json, {flags: 'a'}, (err) => {
         if(err){
@@ -96,8 +98,7 @@ app.get('/register', (request, response) => {
 
 app.post('/register', (request, response) => {
    
-    data = fs.readFileSync('register.json');
-    let obj = JSON.parse(data);
+    data = JSON.parse(fs.readFileSync('register.json'));
 
     const password = request.body.password;
     const saltRounds = 10;
@@ -112,8 +113,8 @@ app.post('/register', (request, response) => {
     .then(hash => {
         console.log(`Hash: ${hash}`);
 
-        obj.register.push({"username": request.body.username, "password": hash});
-        const json = JSON.stringify(obj);
+        data.register.push({"username": request.body.username, "password": hash});
+        const json = JSON.stringify(data);
 
         fs.writeFileSync('register.json', json, (err) => {
             if(err){
