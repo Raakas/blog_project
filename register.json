@@ -1,1 +1,16 @@
-{"register":[{"username":"asd","password":"$2b$10$Rl0shgb1SafmL8Nkf9hUFOcgSUlLLIPY/TP0oBzj51OF147Ch6Pbq"},{"username":"qwe","password":"$2b$10$o5NYiP5F6c2dZ6AJQFkSteH2zOlGoPkNdtjOuDuLC3cV3D2DLm1Di"},{"username":"zxc","password":"$2b$10$3zienW4G.M0LfwjAFYvT0OVrJkfsHCGpc4DgfncSPXclKal1cWwfW"}]}
+{
+  "register": [
+    {
+      "username": "asd",
+      "password": "$2b$10$Rl0shgb1SafmL8Nkf9hUFOcgSUlLLIPY/TP0oBzj51OF147Ch6Pbq"
+    },
+    {
+      "username": "qwe",
+      "password": "$2b$10$o5NYiP5F6c2dZ6AJQFkSteH2zOlGoPkNdtjOuDuLC3cV3D2DLm1Di"
+    },
+    {
+      "username": "zxc",
+      "password": "$2b$10$3zienW4G.M0LfwjAFYvT0OVrJkfsHCGpc4DgfncSPXclKal1cWwfW"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ app.use(session({
     secret: "aSecretString",
     cookie: {
         secure: false,
-        maxAge: 1000 * 120,
+        maxAge: 1000 * 30,
         sameSite: true,
     }
 }));
@@ -30,12 +30,12 @@ const auth = (request, response, next) => {
         next();
     }
     else {
-        response.send('you are not authorized');
+        console.log('log out');
+        response.redirect('/');
     }
 }
 
 app.get('/login', auth, (request, response) => {
-    console.log('logged in');
     response.render('user.ejs');
 });
 
@@ -73,7 +73,6 @@ app.get('/', (request, response) => {
     const blogs = JSON.parse(data);
     
     response.render('index.ejs', blogs);
-
 });
 
 app.post('/', (request, response) => {
@@ -104,8 +103,9 @@ app.post('/', (request, response) => {
     }
 });
 
-app.get('/blog', (request, response) => {
+app.get('/blog', auth, (request, response) => {
 
+    console.log(request.session);
     const path = 'chat.json'
 
     try {
