@@ -1,15 +1,60 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+const functions = require('./functions');
 const PORT = 5000;
 
+app.use(session({
+    name: "cookieNameHere",
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    secret: "aSecretString",
+    cookie: {
+        secure: false,
+        maxAge: 1000 * 120,
+        sameSite: true,
+    }
+}));
+ 
 app.use('/', express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}) );
 app.use(bodyParser.json());
 
+const auth = (request, response, next) => {
+
+    if(request.session.userId === 1){
+        next();
+    }
+    else {
+        response.send('you are not authorized');
+    }
+}
+
+app.get('/login', auth, (request, response) => {
+    console.log('logged in');
+    response.render('user.ejs');
+});
+
+app.get('/logout', (request, response) => {
+
+    req.session.destroy(err => {
+        if (err) {
+            response.redirect("/");
+        } else {
+            response.clearCookie("cookieNameHere");
+            response.redirect("/");
+        }
+    });
+
+});
+
 app.get('/', (request, response) => {
+
+    console.log(request.session);
 
     const path = 'blogs.json';
 
@@ -33,28 +78,31 @@ app.get('/', (request, response) => {
 
 app.post('/', (request, response) => {
     
-    const username = request.body.username;
-    const password = request.body.password;
+    const {username, password} = request.body;
 
-    let hash;
+    if(functions.findUser(username)){
 
-    const data = JSON.parse(fs.readFileSync('register.json'));
-
-    for(let i in data.register){
-        if(data.register[i].username == username){
-            hash = data.register[i].password;
-        }
-    }
-
-    bcrypt
-        .compare(password, hash)
+        let hash = functions.getPassword(username);
+        
+        bcrypt.compare(password, hash)
         .then(res => {
-            console.log(res);
+            if(res){
+                request.session.userId = 1;
+                response.redirect('/login');
+            }
+            else {
+                console.log('wrong password');
+                response.redirect('/');
+            }
         })
         .catch(err => console.error(err.message));
 
-    response.redirect('/');
-})
+    }
+    else {
+        console.log('wrong username');
+        response.redirect('/');
+    }
+});
 
 app.get('/blog', (request, response) => {
 

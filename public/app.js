@@ -12,3 +12,17 @@ function login(){
 }
 
 document.getElementById("login_button").onclick = login;
+
+/*
+function checkIfEmpty(){
+
+    let value = document.querySelectorAll('input');
+
+    if(value[0].value === "" || value[1].value === "" ) {
+        alert("Fill all fields!");
+        return false;
+    }   
+}
+
+document.getElementById('button').onclick = checkIfEmpty; 
+*/

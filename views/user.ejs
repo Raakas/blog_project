@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div id="login">
+            <a id="login_button">Log in</a>
+            <div id="login_form">
+                <form method="POST" action="/">
+                    <label>Username: </label>
+                    <input type="text" name="username" required/><br>
+                    <label>Password: </label>
+                    <input type="password" name="password" required/><br>
+                    <button>Log in</button>
+                    <hr>
+                    <p>Not a user yet? <a href="/register" style="color:greenyellow;">Register</a> and log in.</p>
+                </form>
+            </div>
+        </div>
+        <a href="/">
+            <header>
+                <p>THE NATIONAL PARKS OF JOY</p>
+            </header>
+        </a>
+        <div class="flex-container">
+            <div class="main" id="register">
+                <h1>Logged in</h1>
+            </div>
+        </div>
+        <div class="flex-container">
+            <div class="main">
+                <h1>Hello there!</h1>
+            </div>
+        </div>
+        <a href="/" style="margin-left:5%;" id="back_link"> <span id="back_arrow">&#8249;</span> Back to national parks</a>
+        <footer>
+            <p>&copy; National parks 2019</p>
+        </footer>
+    </body>
+    <script src="../app.js"></script>
+</html>
