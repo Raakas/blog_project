@@ -26,7 +26,10 @@ app.use(bodyParser.json());
 
 const auth = (request, response, next) => {
 
-    if(request.session.userId === 1){
+    const data = JSON.parse(fs.readFileSync('register.json'));
+    const user = data.register.find(x => x.userId === request.session.userId);
+
+    if(user.userId === request.session.userId){
         next();
     }
     else {
@@ -53,8 +56,6 @@ app.get('/logout', (request, response) => {
 });
 
 app.get('/', (request, response) => {
-
-    console.log(request.session);
 
     const path = 'blogs.json';
 
@@ -86,7 +87,9 @@ app.post('/', (request, response) => {
         bcrypt.compare(password, hash)
         .then(res => {
             if(res){
-                request.session.userId = 1;
+                const userId = Math.random();
+                request.session.userId = userId;
+                functions.saveUserId(username, userId);
                 response.redirect('/login');
             }
             else {
@@ -104,8 +107,7 @@ app.post('/', (request, response) => {
 });
 
 app.get('/blog', auth, (request, response) => {
-
-    console.log(request.session);
+    
     const path = 'chat.json'
 
     try {
