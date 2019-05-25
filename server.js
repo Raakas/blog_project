@@ -8,11 +8,11 @@ const functions = require('./functions');
 const PORT = 5000;
 
 app.use(session({
-    name: "cookieNameHere",
+    name: "loginStatus",
     resave: false,
     saveUninitialized: false,
     rolling: true,
-    secret: "aSecretString",
+    secret: "f334#%Ahs5h4a%HS%H",
     cookie: {
         secure: false,
         maxAge: 1000 * 30,
@@ -26,22 +26,22 @@ app.use(bodyParser.json());
 
 const auth = (request, response, next) => {
 
-    if(request.session.userId){
+    if(request.session.sessionId){
 
         const data = JSON.parse(fs.readFileSync('register.json'));
-        const user = data.register.find(x => x.userId === request.session.userId);
+        const user = data.register.find(x => x.sessionId === request.session.sessionId);
 
-        if(user.userId === request.session.userId){
+        if(user.sessionId === request.session.sessionId){
             next();
         }
         else {
-            console.log('log out');
+            console.log('session expired');
             response.redirect('/');
         }
         
     }
     else {
-        console.log('log out');
+        console.log('no session');
         response.redirect('/');
     }
 }
@@ -64,6 +64,8 @@ app.get('/logout', (request, response) => {
 });
 
 app.get('/', (request, response) => {
+
+    console.log(request.session);
 
     const path = 'blogs.json';
 
@@ -95,9 +97,7 @@ app.post('/', (request, response) => {
         bcrypt.compare(password, hash)
         .then(res => {
             if(res){
-                const userId = Math.random();
-                request.session.userId = userId;
-                functions.saveUserId(username, userId);
+                request.session.sessionId = functions.saveSessionId(username);
                 response.redirect('/login');
             }
             else {
@@ -171,27 +171,35 @@ app.post('/register', (request, response) => {
    
     data = JSON.parse(fs.readFileSync('register.json'));
 
-    const password = request.body.password;
-    const saltRounds = 10;
+    const {username, password} = request.body;
 
-    bcrypt
-    .genSalt(saltRounds)
-    .then(salt => {
-        return bcrypt.hash(password, salt);
-    })
-    .then(hash => {
-        data.register.push({"username": request.body.username, "password": hash});
-        const json = JSON.stringify(data);
+    if(!functions.findUser(username)){
+        const saltRounds = 10;
+        bcrypt
+        .genSalt(saltRounds)
+        .then(salt => {
+            return bcrypt.hash(password, salt);
+        })
+        .then(hash => {
+            data.register.push({"username": request.body.username, "password": hash});
+            const json = JSON.stringify(data);
 
-        fs.writeFileSync('register.json', json, (err) => {
-            if(err){
-                console.log(err);
-            }
-        });
-    })
-    .catch(err => console.error(err.message));
+            fs.writeFileSync('register.json', json, (err) => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            
+            request.session.sessionId = functions.saveSessionId(username);
 
-    response.redirect('/');
+            response.redirect('/login');
+
+        })
+        .catch(err => console.error(err.message));
+    } else {
+        console.log('username taken');
+        response.redirect('/register');
+    }
 });
 
 app.listen(PORT, () => {

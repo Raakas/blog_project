@@ -7,15 +7,6 @@ const findUser = function(username){
     return user;
 }
 
-const saveUserId = function(username, value){
-    for(let i in data.register){
-        if(data.register[i].username == username){
-            data.register[i].userId = value;
-            fs.writeFileSync('register.json', JSON.stringify(data));
-        }
-    }
-}
-
 const getPassword = function(username) {
     for(let i in data.register){
         if(data.register[i].username == username){
@@ -24,4 +15,15 @@ const getPassword = function(username) {
     }
 }
 
-module.exports = {findUser, getPassword, saveUserId};
+const saveSessionId = function(username){
+    for(let i in data.register){
+        if(data.register[i].username == username){
+            const sessionId = Math.random();
+            data.register[i].sessionId = sessionId;
+            fs.writeFileSync('register.json', JSON.stringify(data));
+            return sessionId;
+        }
+    }
+}
+
+module.exports = {findUser, getPassword, saveSessionId};
