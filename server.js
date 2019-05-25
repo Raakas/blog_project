@@ -26,11 +26,19 @@ app.use(bodyParser.json());
 
 const auth = (request, response, next) => {
 
-    const data = JSON.parse(fs.readFileSync('register.json'));
-    const user = data.register.find(x => x.userId === request.session.userId);
+    if(request.session.userId){
 
-    if(user.userId === request.session.userId){
-        next();
+        const data = JSON.parse(fs.readFileSync('register.json'));
+        const user = data.register.find(x => x.userId === request.session.userId);
+
+        if(user.userId === request.session.userId){
+            next();
+        }
+        else {
+            console.log('log out');
+            response.redirect('/');
+        }
+        
     }
     else {
         console.log('log out');
