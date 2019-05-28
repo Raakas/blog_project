@@ -48,6 +48,7 @@ const auth = (request, response, next) => {
             if (err) throw err;
             db.db(DB).collection("blogs").findOne({},(err,res) => {
                 if (err) throw err;
+
                 console.log(res);
                 db.close();
             });
