@@ -1,3 +1,17 @@
+const mongodb = require('mongodb').MongoClient;
+const url = 'localhost:27017';
+const DB = 'blogProject';
+const userPwd = 'admin:admin';
+
+mongodb.connect(`mongodb://${userPwd}@${url}/${DB}`,{ useNewUrlParser: true },(err,db) => {
+   if (err) throw err;
+   db.db(DB).collection("blogs").findOne({},(err,res) => {
+       if (err) throw err;
+       console.log(res);
+       db.close();
+   });
+});
+
 const express = require('express');
 const app = express();
 const session = require('express-session');
@@ -28,10 +42,9 @@ const auth = (request, response, next) => {
 
     if(request.session.sessionId){
 
-        const data = JSON.parse(fs.readFileSync('register.json'));
-        const user = data.register.find(x => x.sessionId === request.session.sessionId);
+        const user = functions.findUser(request.session.sessionId);
 
-        if(user.sessionId === request.session.sessionId){
+        if(user.username === request.session.sessionId){
             next();
         }
         else {
@@ -168,12 +181,14 @@ app.get('/register', (request, response) => {
 })
 
 app.post('/register', (request, response) => {
+
    
     data = JSON.parse(fs.readFileSync('register.json'));
 
     const {username, password} = request.body;
 
     if(!functions.findUser(username)){
+        
         const saltRounds = 10;
         bcrypt
         .genSalt(saltRounds)
