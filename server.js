@@ -42,9 +42,19 @@ const auth = (request, response, next) => {
 
     if(request.session.sessionId){
 
-        const user = functions.findUser(request.session.sessionId);
+        //const user = functions.findUser(request.session.sessionId);
 
-        if(user.username === request.session.sessionId){
+        mongodb.connect(`mongodb://${userPwd}@${url}/${DB}`,{ useNewUrlParser: true },(err,db) => {
+            if (err) throw err;
+            db.db(DB).collection("blogs").findOne({},(err,res) => {
+                if (err) throw err;
+                console.log(res);
+                db.close();
+            });
+        });
+
+
+        if(1 === 1){
             next();
         }
         else {
@@ -69,7 +79,7 @@ app.get('/logout', (request, response) => {
         if (err) {
             response.redirect("/");
         } else {
-            response.clearCookie("cookieNameHere");
+            response.clearCookie("loginStatus");
             response.redirect("/");
         }
     });
@@ -103,7 +113,7 @@ app.post('/', (request, response) => {
     
     const {username, password} = request.body;
 
-    if(functions.findUser(username)){
+    if(1===1){
 
         let hash = functions.getPassword(username);
         
@@ -187,7 +197,7 @@ app.post('/register', (request, response) => {
 
     const {username, password} = request.body;
 
-    if(!functions.findUser(username)){
+    if(1===1){
         
         const saltRounds = 10;
         bcrypt
@@ -196,17 +206,18 @@ app.post('/register', (request, response) => {
             return bcrypt.hash(password, salt);
         })
         .then(hash => {
-            data.register.push({"username": request.body.username, "password": hash});
-            const json = JSON.stringify(data);
 
-            fs.writeFileSync('register.json', json, (err) => {
-                if(err){
-                    console.log(err);
-                }
+            mongodb.connect(`mongodb://${userPwd}@${url}/${DB}`,{ useNewUrlParser: true },(err,db) => {
+                const user = { "username": username, "password": hash };
+                db.db(DB).collection("blogs").insertOne(user, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 user inserted");
+                    db.close();
+                });
             });
-            
-            request.session.sessionId = functions.saveSessionId(username);
 
+            request.session.sessionId = request.body.username;
+ 
             response.redirect('/login');
 
         })
