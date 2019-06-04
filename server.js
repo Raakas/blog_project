@@ -7,7 +7,6 @@ mongodb.connect(`mongodb://${userPwd}@${url}/${DB}`,{ useNewUrlParser: true },(e
    if (err) throw err;
    db.db(DB).collection("blogs").findOne({},(err,res) => {
        if (err) throw err;
-       console.log(res);
        db.close();
    });
 });
@@ -32,6 +31,7 @@ app.use(session({
         maxAge: 1000 * 30,
         sameSite: true,
     }
+    //store: new MongoStore({url:url})
 }));
  
 app.use('/', express.static(__dirname + "/public"));
@@ -48,8 +48,6 @@ const auth = (request, response, next) => {
             if (err) throw err;
             db.db(DB).collection("blogs").findOne({},(err,res) => {
                 if (err) throw err;
-
-                console.log(res);
                 db.close();
             });
         });
